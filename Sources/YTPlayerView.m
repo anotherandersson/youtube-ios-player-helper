@@ -729,6 +729,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
 
   [playerParams setValue:playerCallbacks forKey:@"events"];
   
+    /*
   NSMutableDictionary *playerVars = [[playerParams objectForKey:@"playerVars"] mutableCopy];
   if (!playerVars) {
     // playerVars must not be empty so we can render a '{}' in the output JSON
@@ -738,7 +739,7 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
   // the webView.baseURL
   [playerVars setObject:self.originURL.absoluteString forKey:@"origin"];
   [playerParams setValue:playerVars forKey:@"playerVars"];
-
+     */
   // Remove the existing webview to reset any state
   [self.webView removeFromSuperview];
   _webView = [self createNewWebView];
