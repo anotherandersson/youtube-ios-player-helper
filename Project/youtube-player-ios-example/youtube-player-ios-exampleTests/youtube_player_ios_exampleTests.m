@@ -125,6 +125,25 @@
   [mockWebView verify];
 }
 
+- (void)testPlayVideo_evalutationError_receivedErrorShouldBeCalled {
+    [[mockWebView stub] evaluateJavaScript:@"player.playVideo();"
+                         completionHandler:[OCMArg invokeBlockWithArgs:NSNull.null,
+                                            [NSError errorWithDomain:@"" code:5 userInfo:nil],
+                                            nil]];
+    [[mockDelegate expect] playerView:[OCMArg any] receivedError:kYTPlayerErrorHTML5Error];
+    [playerView playVideo];
+    [mockDelegate verify];
+}
+
+- (void)testPlayVideo_passBlock_receivedErrorShouldNotBeCalled {
+    [[mockWebView stub] evaluateJavaScript:@"player.playVideo();"
+                         completionHandler:[OCMArg invokeBlockWithArgs:NSNull.null,
+                                            NSNull.null,
+                                            nil]];
+    [playerView playVideo];
+    [mockDelegate verify];
+}
+
 - (void)testPauseVideo {
   [[mockDelegate expect] playerView:playerView didChangeToState:kYTPlayerStatePaused];
   [[mockWebView expect] evaluateJavaScript:@"player.pauseVideo();" completionHandler:[OCMArg any]];
