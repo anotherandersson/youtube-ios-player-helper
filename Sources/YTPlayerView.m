@@ -858,7 +858,13 @@ createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration
  * @param jsToExecute The JavaScript code in string format that we want to execute.
  */
 - (void)evaluateJavaScript:(NSString *)jsToExecute {
-  [self evaluateJavaScript:jsToExecute completionHandler:nil];
+    __weak typeof(self) weakSelf = self;
+    [self evaluateJavaScript:jsToExecute completionHandler:^(id  _Nullable result, NSError * _Nullable error) {
+        __strong typeof(self) strongSelf = weakSelf;
+        if ([strongSelf.delegate respondsToSelector:@selector(playerView:receivedError:)]) {
+            [strongSelf.delegate playerView:self receivedError:kYTPlayerErrorHTML5Error];
+        }
+    }];
 }
 
 /**
